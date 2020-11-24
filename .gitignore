@@ -3,3 +3,8 @@ target
 *.iml
 .scannerwork
 *.log
+.idea
+target
+*.iml
+.scannerwork
+*.log
