@@ -8,3 +8,9 @@ target
 *.iml
 .scannerwork
 *.log
+.idea
+target
+*.iml
+.scannerwork
+*.log
+git-setup-spring-cloud-tutorial.bat
