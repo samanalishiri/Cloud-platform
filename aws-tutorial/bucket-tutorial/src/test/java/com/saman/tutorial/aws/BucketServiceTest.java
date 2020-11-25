@@ -66,9 +66,7 @@ class BucketServiceTest {
     void getOne_GivenBucketNameAsParam_WhenSendGetRequestToAWS_ThenReturnTheBucket(String name) {
         Optional<Bucket> bucket = bucketService.getOne(name);
         assertTrue(bucket.isPresent());
-        bucket.ifPresent(it -> {
-            assertEquals(name, it.name());
-        });
+        bucket.ifPresent(it -> assertEquals(name, it.name()));
     }
 
     @ParameterizedTest
