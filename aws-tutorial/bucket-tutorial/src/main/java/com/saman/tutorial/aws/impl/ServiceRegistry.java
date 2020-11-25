@@ -1,9 +1,12 @@
-package com.saman.tutorial.aws;
+package com.saman.tutorial.aws.impl;
+
+import com.saman.tutorial.aws.contract.AwsService;
+import com.saman.tutorial.aws.contract.BucketService;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.saman.tutorial.aws.BeanUtils.loadServices;
+import static com.saman.tutorial.aws.utils.BeanUtils.loadServices;
 import static java.util.Collections.synchronizedMap;
 
 /**

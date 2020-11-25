@@ -1,6 +1,5 @@
 package com.saman.tutorial.aws;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import software.amazon.awssdk.auth.credentials.AwsCredentials;
@@ -22,10 +21,9 @@ class CredentialsUtilsTest {
     void loadCredentials_GivenNoParam_WhenLoadDefaultCredentials_ThenItShouldBeLoadDefaultProfile() {
         Optional<AwsCredentials> credentials = loadCredentials();
         assertTrue(credentials.isPresent());
-        credentials.ifPresentOrElse(it -> {
-                    assertNotNull(it.accessKeyId());
-                    assertNotNull(it.secretAccessKey());
-                },
-                Assertions::fail);
+        credentials.ifPresent(it -> {
+            assertNotNull(it.accessKeyId());
+            assertNotNull(it.secretAccessKey());
+        });
     }
 }

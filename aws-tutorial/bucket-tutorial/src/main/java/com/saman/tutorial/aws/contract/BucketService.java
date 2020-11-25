@@ -1,4 +1,4 @@
-package com.saman.tutorial.aws;
+package com.saman.tutorial.aws.contract;
 
 import software.amazon.awssdk.services.s3.model.Bucket;
 import software.amazon.awssdk.services.s3.model.HeadBucketResponse;
@@ -12,6 +12,10 @@ import java.util.Optional;
 public interface BucketService extends AwsService {
 
     Optional<HeadBucketResponse> create(String name, Boolean async);
+
+    Optional<Bucket> getOne(String name);
+
+    void deleteOne(String name);
 
     List<Bucket> getAll();
 }

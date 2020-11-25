@@ -1,4 +1,4 @@
-package com.saman.tutorial.aws;
+package com.saman.tutorial.aws.utils;
 
 import java.util.Map;
 import java.util.ServiceLoader;
