@@ -1,6 +1,8 @@
 .idea
 target
 *.iml
+*.ipr
+*.iws
 .scannerwork
 *.log
 .idea
@@ -13,4 +15,3 @@ target
 *.iml
 .scannerwork
 *.log
-git-setup-spring-cloud-tutorial.bat
