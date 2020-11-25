@@ -12,29 +12,25 @@ import static java.util.Collections.synchronizedMap;
 @SuppressWarnings({"unused", "unchecked"})
 public final class ServiceRegistry {
 
-    private final Map<String, AwsService> map = synchronizedMap(new HashMap<>());
+    private static final Map<String, AwsService> map = synchronizedMap(new HashMap<>());
 
-    private ServiceRegistry() {
+    static {
         map.putAll(loadServices(AwsService.class, AwsService::getName));
     }
 
-    public static ServiceRegistry getInstance() {
-        return InstanceHolder.INSTANCE;
+    private ServiceRegistry() {
+
     }
 
-    public void register(String name, AwsService service) {
+    public static void register(String name, BucketService service) {
         map.put(name, service);
     }
 
-    public <T extends AwsService> T get(String name) {
+    public static <T extends BucketService> T getService(String name) {
         return (T) map.get(name);
     }
 
-    public <T extends AwsService> T get(String name, Class<T> type) {
+    public static <T extends BucketService> T getService(String name, Class<T> type) {
         return type.cast(map.get(name));
-    }
-
-    private static class InstanceHolder {
-        public static final ServiceRegistry INSTANCE = new ServiceRegistry();
     }
 }

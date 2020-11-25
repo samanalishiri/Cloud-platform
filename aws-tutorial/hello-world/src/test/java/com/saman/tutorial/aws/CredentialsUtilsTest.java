@@ -1,4 +1,4 @@
-package com.saman.tutorial.aws.test;
+package com.saman.tutorial.aws;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

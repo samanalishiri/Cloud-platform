@@ -12,8 +12,10 @@ import java.util.List;
 @SuppressWarnings("unused")
 public final class S3Utils {
 
-    public static final S3Client FRANKFURT_S3 = S3Client.builder()
-            .region(Region.EU_CENTRAL_1)
+    public static final Region DEFAULT_REGION = Region.EU_CENTRAL_1;
+
+    public static final S3Client DEFAULT_S3CLIENT = S3Client.builder()
+            .region(DEFAULT_REGION)
             .build();
 
     private S3Utils() {
