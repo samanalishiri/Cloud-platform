@@ -9,7 +9,7 @@ import java.util.Optional;
 /**
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
-public interface BucketService extends AwsService {
+public interface BucketService extends Service {
 
     Optional<HeadBucketResponse> create(String name, Boolean async);
 

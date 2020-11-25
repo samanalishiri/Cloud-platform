@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.saman.tutorial.aws.utils.S3Utils.getDefaultRegion;
+import static java.util.Objects.requireNonNull;
 
 /**
  * @author Saman Alishiri, samanalishiri@gmail.com
@@ -27,6 +28,9 @@ public final class BucketServiceImpl implements BucketService {
 
     @Override
     public Optional<HeadBucketResponse> create(String name, Boolean async) {
+        requireNonNull(name);
+        requireNonNull(async);
+
         S3Waiter s3Waiter = s3Client.waiter();
         CreateBucketRequest bucketRequest = CreateBucketRequest.builder()
                 .bucket(name)
@@ -50,6 +54,7 @@ public final class BucketServiceImpl implements BucketService {
 
     @Override
     public Optional<Bucket> getOne(String name) {
+        requireNonNull(name);
         return getAll().stream()
                 .filter(bucket -> bucket.name().equals(name))
                 .findFirst();
@@ -57,6 +62,7 @@ public final class BucketServiceImpl implements BucketService {
 
     @Override
     public void deleteOne(String name) {
+        requireNonNull(name);
         s3Client.deleteBucket(DeleteBucketRequest.builder().bucket(name).build());
     }
 

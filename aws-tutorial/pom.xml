@@ -44,6 +44,13 @@
             <artifactId>s3control</artifactId>
             <version>2.15.14</version>
         </dependency>
+
+        <dependency>
+            <groupId>io.vavr</groupId>
+            <artifactId>vavr</artifactId>
+            <version>0.10.2</version>
+        </dependency>
+
         <!--logger-->
         <dependency>
             <groupId>org.slf4j</groupId>

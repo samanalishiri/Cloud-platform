@@ -1,12 +1,17 @@
 package com.saman.tutorial.aws.impl;
 
-import com.saman.tutorial.aws.contract.AwsService;
 import com.saman.tutorial.aws.contract.BucketService;
+import com.saman.tutorial.aws.contract.Service;
+import io.vavr.control.Try;
 
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.saman.tutorial.aws.utils.BeanUtils.loadServices;
+import static com.saman.tutorial.aws.utils.BeanUtils.toUri;
+import static io.vavr.control.Try.run;
+import static java.nio.file.Files.list;
 import static java.util.Collections.synchronizedMap;
 
 /**
@@ -15,10 +20,12 @@ import static java.util.Collections.synchronizedMap;
 @SuppressWarnings({"unused", "unchecked"})
 public final class ServiceRegistry {
 
-    private static final Map<String, AwsService> map = synchronizedMap(new HashMap<>());
+    private static final Map<String, Object> map = synchronizedMap(new HashMap<>());
 
     static {
-        map.putAll(loadServices(AwsService.class, AwsService::getName));
+        run(() -> list(Paths.get(toUri("META-INF/services")))
+                .map(it -> Try.of(() -> Class.forName(it.getFileName().toString())).get())
+                .forEach(it -> map.putAll(loadServices(it, o -> ((Service) o).getName()))));
     }
 
     private ServiceRegistry() {
