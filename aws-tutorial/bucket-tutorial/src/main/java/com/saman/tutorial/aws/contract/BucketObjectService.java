@@ -8,7 +8,7 @@ import java.util.Optional;
 /**
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
-public interface BucketObjectService extends Service {
+public interface BucketObjectService extends Bean {
 
     Optional<PutObjectResponse> putOneObject(String bucketName, String objectKey, byte[] object);
 

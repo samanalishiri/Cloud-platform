@@ -12,6 +12,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import java.util.List;
 import java.util.Optional;
 
+import static com.saman.tutorial.aws.impl.BeanRepository.getBean;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -19,9 +20,15 @@ import static java.util.Objects.requireNonNull;
  */
 public final class BucketFacadeImpl implements BucketFacade {
 
-    private final BucketService bucketService = new BucketServiceImpl();
+    private BucketService bucketService;
 
-    private final BucketObjectService objectService = new BucketObjectServiceImpl();
+    private BucketObjectService objectService;
+
+    @Override
+    public void initDependencies() {
+        bucketService = getBean(BucketServiceImpl.class.getSimpleName(), BucketService.class);
+        objectService = getBean(BucketObjectServiceImpl.class.getSimpleName(), BucketObjectService.class);
+    }
 
     @Override
     public Optional<HeadBucketResponse> createBucket(String name, boolean async) {

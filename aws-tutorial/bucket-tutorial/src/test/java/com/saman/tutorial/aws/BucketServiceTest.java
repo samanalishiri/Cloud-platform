@@ -20,7 +20,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import java.util.List;
 import java.util.Optional;
 
-import static com.saman.tutorial.aws.impl.ServiceRegistry.getService;
+import static com.saman.tutorial.aws.impl.BeanRepository.getBean;
 import static com.saman.tutorial.aws.utils.IoUtils.createFile;
 import static com.saman.tutorial.aws.utils.IoUtils.readFile;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,7 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
 class BucketServiceTest {
 
-    private final BucketFacade bucketFacade = getService(BucketFacadeImpl.class.getSimpleName(), BucketFacade.class);
+    private final BucketFacade bucketFacade = getBean(BucketFacadeImpl.class.getSimpleName(), BucketFacade.class);
 
     @BeforeEach
     void setUp() {
