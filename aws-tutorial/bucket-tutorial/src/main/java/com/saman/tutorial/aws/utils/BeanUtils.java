@@ -1,15 +1,14 @@
 package com.saman.tutorial.aws.utils;
 
-import com.saman.tutorial.aws.impl.ServiceRegistry;
 import io.vavr.control.Try;
 
-import java.net.URI;
-import java.net.URL;
+import java.nio.file.Paths;
 import java.util.Map;
-import java.util.Objects;
 import java.util.ServiceLoader;
 import java.util.function.Function;
 
+import static com.saman.tutorial.aws.utils.IoUtils.toUri;
+import static java.nio.file.Files.list;
 import static java.util.stream.Collectors.toMap;
 
 /**
@@ -27,10 +26,10 @@ public final class BeanUtils {
                 .collect(toMap(mapper, s -> s));
     }
 
-    public static URI toUri(String path) {
-        ClassLoader classLoader = ServiceRegistry.class.getClassLoader();
-        URL dir = classLoader.getResource(path);
-        Objects.requireNonNull(dir);
-        return Try.of(dir::toURI).get();
+    public static Class<?>[] loadClass(String path) {
+        return Try.of(() -> list(Paths.get(toUri(path)))
+                .map(it -> Try.of(() -> Class.forName(it.getFileName().toString())).get())
+                .toArray(Class[]::new))
+                .get();
     }
 }

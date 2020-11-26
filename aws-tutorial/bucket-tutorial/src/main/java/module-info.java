@@ -1,4 +1,6 @@
-import com.saman.tutorial.aws.contract.Service;
+import com.saman.tutorial.aws.contract.BucketObjectService;
+import com.saman.tutorial.aws.contract.BucketService;
+import com.saman.tutorial.aws.impl.BucketObjectServiceImpl;
 import com.saman.tutorial.aws.impl.BucketServiceImpl;
 
 open module bucket.tutorial {
@@ -11,6 +13,9 @@ open module bucket.tutorial {
     requires software.amazon.awssdk.regions;
     requires vavr;
 
-    uses Service;
-    provides Service with BucketServiceImpl;
+    uses BucketService;
+    provides BucketService with BucketServiceImpl;
+
+    uses BucketObjectService;
+    provides BucketObjectService with BucketObjectServiceImpl;
 }
