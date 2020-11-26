@@ -28,7 +28,7 @@ public final class BeanRepository {
 
         map.entrySet().stream()
                 .filter(it -> it.getValue() instanceof Composite)
-                .forEach(it -> ((Composite) it.getValue()).initDependencies());
+                .forEach(it -> ((Composite) it.getValue()).postConstruct());
     }
 
     private BeanRepository() {

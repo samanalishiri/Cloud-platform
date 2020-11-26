@@ -25,7 +25,7 @@ public final class BucketFacadeImpl implements BucketFacade {
     private BucketObjectService objectService;
 
     @Override
-    public void initDependencies() {
+    public void postConstruct() {
         bucketService = getBean(BucketServiceImpl.class.getSimpleName(), BucketService.class);
         objectService = getBean(BucketObjectServiceImpl.class.getSimpleName(), BucketObjectService.class);
     }
