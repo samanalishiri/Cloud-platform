@@ -1,7 +1,7 @@
 package com.saman.tutorial.aws;
 
-import com.saman.tutorial.aws.contract.BucketService;
-import com.saman.tutorial.aws.impl.BucketServiceImpl;
+import com.saman.tutorial.aws.contract.BucketFacade;
+import com.saman.tutorial.aws.impl.BucketFacadeImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -34,11 +34,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
 class BucketServiceTest {
 
-    private final BucketService bucketService = getService(BucketServiceImpl.class.getSimpleName(), BucketService.class);
+    private final BucketFacade bucketFacade = getService(BucketFacadeImpl.class.getSimpleName(), BucketFacade.class);
 
     @BeforeEach
     void setUp() {
-        assertNotNull(bucketService);
+        assertNotNull(bucketFacade);
     }
 
     @ParameterizedTest(name = "{index} => name=''{0}''")
@@ -46,7 +46,7 @@ class BucketServiceTest {
     @DisplayName("bucket sync creation")
     @Order(1)
     void createBucket_GivenBucketNameAs1stParamAndFalseAs2ndParam_WhenSendCreateRequest_ThenItShouldBeWaitUntilGetResponse(String name) {
-        Optional<HeadBucketResponse> response = bucketService.createBucket(name, false);
+        Optional<HeadBucketResponse> response = bucketFacade.createBucket(name, false);
         assertTrue(response.isPresent());
         response.ifPresent(it -> {
             assertTrue(it.sdkHttpResponse().isSuccessful());
@@ -60,7 +60,7 @@ class BucketServiceTest {
     @DisplayName("get all buckets")
     @Order(2)
     void getAllBuckets_GivenNoParam_WhenSendGetRequestToAWS_ThenReturnAllBucketAsList() {
-        List<Bucket> buckets = bucketService.getAllBuckets();
+        List<Bucket> buckets = bucketFacade.getAllBuckets();
         assertNotNull(buckets);
     }
 
@@ -69,7 +69,7 @@ class BucketServiceTest {
     @DisplayName("get one bucket")
     @Order(3)
     void getOneBucket_GivenBucketNameAsParam_WhenSendGetRequestToAWS_ThenReturnTheBucket(String name) {
-        Optional<Bucket> bucket = bucketService.getOneBucket(name);
+        Optional<Bucket> bucket = bucketFacade.getOneBucket(name);
         assertTrue(bucket.isPresent());
         bucket.ifPresent(it -> assertEquals(name, it.name()));
     }
@@ -81,7 +81,7 @@ class BucketServiceTest {
     void putOneObject_GivenBucketNameAndObjectKeyAndFileNameAsParam_WhenSendPutObjectRequestToAWS_ThenReturnTheOKStatus(
             String bucketName, String objectKey, String fileName) {
 
-        Optional<PutObjectResponse> response = bucketService.putOneObject(bucketName, objectKey, readFile(fileName));
+        Optional<PutObjectResponse> response = bucketFacade.putOneObject(bucketName, objectKey, readFile(fileName));
         assertTrue(response.isPresent());
         response.ifPresent(it -> {
             assertTrue(it.sdkHttpResponse().isSuccessful());
@@ -99,7 +99,7 @@ class BucketServiceTest {
     void getOneObject_GivenBucketNameAndObjectKeyAndFilePathAsParam_WhenSendGetObjectRequestToAWS_ThenReturnTheByteArray(
             String bucketName, String objectKey, String filePath) {
 
-        byte[] object = bucketService.getOneObject(bucketName, objectKey);
+        byte[] object = bucketFacade.getOneObject(bucketName, objectKey);
         assertNotNull(object);
         createFile(String.format("%s_%d.txt", filePath, System.currentTimeMillis()), object);
     }
@@ -112,7 +112,7 @@ class BucketServiceTest {
     void deleteOneObject_GivenBucketNameAndObjectKeyAsParam_WhenSendDeleteObjectRequestToAWS_ThenReturnTheOKStatus(
             String bucketName, String objectKey) {
 
-        Optional<DeleteObjectsResponse> response = bucketService.deleteOneObject(bucketName, objectKey);
+        Optional<DeleteObjectsResponse> response = bucketFacade.deleteOneObject(bucketName, objectKey);
         assertTrue(response.isPresent());
         response.ifPresent(it -> {
             assertTrue(it.sdkHttpResponse().isSuccessful());
@@ -128,7 +128,7 @@ class BucketServiceTest {
     @DisplayName("delete one bucket")
     @Order(7)
     void deleteOneBucket_GivenBucketNameAsParam_WhenSendDeleteRequestToAWS_ThenItShouldBeRemove(String name) {
-        Optional<DeleteBucketResponse> response = bucketService.deleteOneBucket(name);
+        Optional<DeleteBucketResponse> response = bucketFacade.deleteOneBucket(name);
         assertTrue(response.isPresent());
         response.ifPresent(it -> {
             assertTrue(it.sdkHttpResponse().isSuccessful());
