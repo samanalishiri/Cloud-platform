@@ -1,6 +1,6 @@
 package com.saman.tutorial.aws.impl;
 
-import com.saman.tutorial.aws.contract.BucketFacade;
+import com.saman.tutorial.aws.contract.S3Facade;
 import com.saman.tutorial.aws.contract.BucketObjectAsyncService;
 import com.saman.tutorial.aws.contract.BucketObjectService;
 import com.saman.tutorial.aws.contract.BucketService;
@@ -22,7 +22,7 @@ import static java.util.Objects.requireNonNull;
 /**
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
-public final class BucketFacadeImpl implements BucketFacade {
+public final class S3FacadeImpl implements S3Facade {
 
     private BucketService bucketService;
 
