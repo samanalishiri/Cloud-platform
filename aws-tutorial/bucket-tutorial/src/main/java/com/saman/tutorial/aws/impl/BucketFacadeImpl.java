@@ -1,16 +1,20 @@
 package com.saman.tutorial.aws.impl;
 
 import com.saman.tutorial.aws.contract.BucketFacade;
+import com.saman.tutorial.aws.contract.BucketObjectAsyncService;
 import com.saman.tutorial.aws.contract.BucketObjectService;
 import com.saman.tutorial.aws.contract.BucketService;
+import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.services.s3.model.Bucket;
 import software.amazon.awssdk.services.s3.model.DeleteBucketResponse;
 import software.amazon.awssdk.services.s3.model.DeleteObjectsResponse;
+import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.HeadBucketResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 
 import static com.saman.tutorial.aws.impl.BeanRepository.getBean;
 import static java.util.Objects.requireNonNull;
@@ -24,16 +28,19 @@ public final class BucketFacadeImpl implements BucketFacade {
 
     private BucketObjectService objectService;
 
+    private BucketObjectAsyncService objectAsyncService;
+
     @Override
     public void postConstruct() {
         bucketService = getBean(BucketServiceImpl.class.getSimpleName(), BucketService.class);
         objectService = getBean(BucketObjectServiceImpl.class.getSimpleName(), BucketObjectService.class);
+        objectAsyncService = getBean(BucketObjectAsyncServiceImpl.class.getSimpleName(), BucketObjectAsyncService.class);
     }
 
     @Override
-    public Optional<HeadBucketResponse> createBucket(String name, boolean async) {
+    public Optional<HeadBucketResponse> createBucket(String name) {
         requireNonNull(name);
-        return bucketService.createBucket(name, async);
+        return bucketService.createBucket(name);
     }
 
     @Override
@@ -76,6 +83,21 @@ public final class BucketFacadeImpl implements BucketFacade {
         requireNonNull(objectKey);
 
         return objectService.deleteOneObject(bucketName, objectKey);
+    }
+
+    @Override
+    public void putOneObject(String bucketName, String objectKey, byte[] object, BiConsumer<? super PutObjectResponse, ? super Throwable> action) {
+        requireNonNull(bucketName);
+        requireNonNull(objectKey);
+        requireNonNull(object);
+        objectAsyncService.putOneObject(bucketName, objectKey, object, action);
+    }
+
+    @Override
+    public void getOneObject(String bucketName, String objectKey, BiConsumer<? super ResponseBytes<GetObjectResponse>, ? super Throwable> action) {
+        requireNonNull(bucketName);
+        requireNonNull(objectKey);
+        objectAsyncService.getOneObject(bucketName, objectKey, action);
     }
 }
 

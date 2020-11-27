@@ -1,6 +1,7 @@
 package com.saman.tutorial.aws.utils;
 
 import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3AsyncClient;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.Bucket;
 
@@ -18,6 +19,10 @@ public final class S3Utils {
             .region(DEFAULT_REGION)
             .build();
 
+    private static final S3AsyncClient DEFAULT_S3_ASYNC_CLIENT = S3AsyncClient.builder()
+            .region(DEFAULT_REGION)
+            .build();
+
     private S3Utils() {
     }
 
@@ -27,6 +32,10 @@ public final class S3Utils {
 
     public static S3Client getDefaultS3client() {
         return DEFAULT_S3CLIENT;
+    }
+
+    public static S3AsyncClient getDefaultS3AsyncClient() {
+        return DEFAULT_S3_ASYNC_CLIENT;
     }
 
     public static String[] extractBucketNames(List<Bucket> buckets) {

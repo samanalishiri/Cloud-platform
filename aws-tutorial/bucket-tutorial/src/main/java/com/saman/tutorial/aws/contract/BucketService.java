@@ -12,7 +12,7 @@ import java.util.Optional;
  */
 public interface BucketService extends Bean {
 
-    Optional<HeadBucketResponse> createBucket(String name, boolean async);
+    Optional<HeadBucketResponse> createBucket(String name);
 
     Optional<Bucket> getOneBucket(String name);
 

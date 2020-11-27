@@ -23,6 +23,7 @@ import java.util.Optional;
 import static com.saman.tutorial.aws.impl.BeanRepository.getBean;
 import static com.saman.tutorial.aws.utils.IoUtils.createFile;
 import static com.saman.tutorial.aws.utils.IoUtils.readFile;
+import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -45,8 +46,8 @@ class BucketServiceTest {
     @ValueSource(strings = {"pine-framework-test-bucket"})
     @DisplayName("bucket sync creation")
     @Order(1)
-    void createBucket_GivenBucketNameAs1stParamAndFalseAs2ndParam_WhenSendCreateRequest_ThenItShouldBeWaitUntilGetResponse(String name) {
-        Optional<HeadBucketResponse> response = bucketFacade.createBucket(name, false);
+    void createBucket_GivenBucketNameAsParam_WhenSendCreateRequest_ThenItShouldBeWaitUntilGetResponse(String name) {
+        Optional<HeadBucketResponse> response = bucketFacade.createBucket(name);
         assertTrue(response.isPresent());
         response.ifPresent(it -> {
             assertTrue(it.sdkHttpResponse().isSuccessful());
@@ -75,13 +76,13 @@ class BucketServiceTest {
     }
 
     @ParameterizedTest(name = "{index} => bucketName=''{0}'', objectKey=''{1}'', fileName=''{2}''")
-    @CsvSource({"pine-framework-test-bucket, aws-object, src/test/resources/put-to-aws.txt"})
+    @CsvSource({"pine-framework-test-bucket, aws-object, put-to-aws.txt"})
     @DisplayName("put one object")
     @Order(4)
-    void putOneObject_GivenBucketNameAndObjectKeyAndFileNameAsParam_WhenSendPutObjectRequestToAWS_ThenReturnTheOKStatus(
+    void putOneObject_GivenBucketNameAndObjectKeyAndFileAsParam_WhenSendPutObjectRequestToAWS_ThenReturnTheOKStatus(
             String bucketName, String objectKey, String fileName) {
 
-        Optional<PutObjectResponse> response = bucketFacade.putOneObject(bucketName, objectKey, readFile(fileName));
+        Optional<PutObjectResponse> response = bucketFacade.putOneObject(bucketName, objectKey, readFile(format("src/test/resources/%s", fileName)));
         assertTrue(response.isPresent());
         response.ifPresent(it -> {
             assertTrue(it.sdkHttpResponse().isSuccessful());
@@ -93,7 +94,7 @@ class BucketServiceTest {
     }
 
     @ParameterizedTest(name = "{index} => bucketName=''{0}'', objectKey=''{1}'', filePath=''{2}''")
-    @CsvSource({"pine-framework-test-bucket, aws-object, src/test/resources/get-from-aws"})
+    @CsvSource({"pine-framework-test-bucket, aws-object, get-from-aws"})
     @DisplayName("get one object")
     @Order(5)
     void getOneObject_GivenBucketNameAndObjectKeyAndFilePathAsParam_WhenSendGetObjectRequestToAWS_ThenReturnTheByteArray(
@@ -101,14 +102,14 @@ class BucketServiceTest {
 
         byte[] object = bucketFacade.getOneObject(bucketName, objectKey);
         assertNotNull(object);
-        createFile(String.format("%s_%d.txt", filePath, System.currentTimeMillis()), object);
+        createFile(format("src/test/resources/%s_%d.txt", filePath, System.currentTimeMillis()), object);
     }
 
 
     @ParameterizedTest(name = "{index} => bucketName=''{0}'', objectKey=''{1}''")
-    @CsvSource({"pine-framework-test-bucket, aws-object, src/test/resources/get-from-aws.txt"})
+    @CsvSource({"pine-framework-test-bucket, aws-object"})
     @DisplayName("delete one object")
-    @Order(5)
+    @Order(6)
     void deleteOneObject_GivenBucketNameAndObjectKeyAsParam_WhenSendDeleteObjectRequestToAWS_ThenReturnTheOKStatus(
             String bucketName, String objectKey) {
 
@@ -123,10 +124,41 @@ class BucketServiceTest {
 
     }
 
+    @ParameterizedTest(name = "{index} => bucketName=''{0}'', objectKey=''{1}'', fileName=''{2}''")
+    @CsvSource({"pine-framework-test-bucket, aws-object, put-to-aws.txt"})
+    @DisplayName("put one object async")
+    @Order(7)
+    void putOneObject_GivenBucketNameAndObjectKeyAndFileAsParam_WhenSendAsyncPutObjectRequestToAWS_ThenReturnTheOKStatus(
+            String bucketName, String objectKey, String fileName) {
+
+        bucketFacade.putOneObject(bucketName, objectKey, readFile(format("src/test/resources/%s", fileName)), (response, err) -> {
+            assertNotNull(response);
+            assertTrue(response.sdkHttpResponse().isSuccessful());
+            assertEquals(200, response.sdkHttpResponse().statusCode());
+            assertTrue(response.sdkHttpResponse().statusText().isPresent());
+            response.sdkHttpResponse().statusText().ifPresent(status -> assertEquals("OK", status));
+            assertNotNull(response.eTag());
+        });
+    }
+
+    @ParameterizedTest(name = "{index} => bucketName=''{0}'', objectKey=''{1}'', filePath=''{2}''")
+    @CsvSource({"pine-framework-test-bucket, aws-object, get-from-aws"})
+    @DisplayName("get one object async")
+    @Order(8)
+    void getOneObject_GivenBucketNameAndObjectKeyAndFilePathAsParam_WhenSendAsyncGetObjectRequestToAWS_ThenReturnTheByteArray(
+            String bucketName, String objectKey, String filePath) {
+
+        bucketFacade.getOneObject(bucketName, objectKey, (response, err) -> {
+            assertNotNull(response);
+            createFile(format("src/test/resources/%s_%d.txt", filePath, System.currentTimeMillis()), response.asByteArray());
+            bucketFacade.deleteOneObject(bucketName, objectKey);
+        });
+    }
+
     @ParameterizedTest(name = "{index} => name=''{0}''")
     @ValueSource(strings = {"pine-framework-test-bucket"})
     @DisplayName("delete one bucket")
-    @Order(7)
+    @Order(9)
     void deleteOneBucket_GivenBucketNameAsParam_WhenSendDeleteRequestToAWS_ThenItShouldBeRemove(String name) {
         Optional<DeleteBucketResponse> response = bucketFacade.deleteOneBucket(name);
         assertTrue(response.isPresent());

@@ -1,7 +1,9 @@
 import com.saman.tutorial.aws.contract.BucketFacade;
+import com.saman.tutorial.aws.contract.BucketObjectAsyncService;
 import com.saman.tutorial.aws.contract.BucketObjectService;
 import com.saman.tutorial.aws.contract.BucketService;
 import com.saman.tutorial.aws.impl.BucketFacadeImpl;
+import com.saman.tutorial.aws.impl.BucketObjectAsyncServiceImpl;
 import com.saman.tutorial.aws.impl.BucketObjectServiceImpl;
 import com.saman.tutorial.aws.impl.BucketServiceImpl;
 
@@ -20,6 +22,9 @@ open module bucket.tutorial {
 
     uses BucketObjectService;
     provides BucketObjectService with BucketObjectServiceImpl;
+
+    uses BucketObjectAsyncService;
+    provides BucketObjectAsyncService with BucketObjectAsyncServiceImpl;
 
     uses BucketFacade;
     provides BucketFacade with BucketFacadeImpl;

@@ -28,7 +28,7 @@ public final class BucketServiceImpl implements BucketService {
     private final S3Client s3Client = S3Utils.getDefaultS3client();
 
     @Override
-    public Optional<HeadBucketResponse> createBucket(String name, boolean async) {
+    public Optional<HeadBucketResponse> createBucket(String name) {
         S3Waiter s3Waiter = s3Client.waiter();
         CreateBucketRequest createBucketRequest = CreateBucketRequest.builder()
                 .bucket(name)
@@ -39,15 +39,11 @@ public final class BucketServiceImpl implements BucketService {
 
         s3Client.createBucket(createBucketRequest);
 
-        if (!async) {
-            HeadBucketRequest bucketRequestWait = HeadBucketRequest.builder()
-                    .bucket(name)
-                    .build();
-            WaiterResponse<HeadBucketResponse> waiterResponse = s3Waiter.waitUntilBucketExists(bucketRequestWait);
-            return waiterResponse.matched().response();
-        }
-
-        return Optional.empty();
+        HeadBucketRequest bucketRequestWait = HeadBucketRequest.builder()
+                .bucket(name)
+                .build();
+        WaiterResponse<HeadBucketResponse> waiterResponse = s3Waiter.waitUntilBucketExists(bucketRequestWait);
+        return waiterResponse.matched().response();
     }
 
     @Override
