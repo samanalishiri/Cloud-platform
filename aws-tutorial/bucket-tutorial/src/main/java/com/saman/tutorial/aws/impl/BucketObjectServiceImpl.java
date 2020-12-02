@@ -1,6 +1,6 @@
 package com.saman.tutorial.aws.impl;
 
-import com.saman.tutorial.aws.contract.BucketObjectService;
+import com.saman.tutorial.aws.service.BucketObjectService;
 import com.saman.tutorial.aws.utils.S3Utils;
 import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.services.s3.S3Client;

@@ -1,9 +1,9 @@
 package com.saman.tutorial.aws.impl;
 
-import com.saman.tutorial.aws.contract.S3Facade;
-import com.saman.tutorial.aws.contract.BucketObjectAsyncService;
-import com.saman.tutorial.aws.contract.BucketObjectService;
-import com.saman.tutorial.aws.contract.BucketService;
+import com.saman.tutorial.aws.service.S3Facade;
+import com.saman.tutorial.aws.service.BucketObjectAsyncService;
+import com.saman.tutorial.aws.service.BucketObjectService;
+import com.saman.tutorial.aws.service.BucketService;
 import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.services.s3.model.Bucket;
 import software.amazon.awssdk.services.s3.model.DeleteBucketResponse;

@@ -1,4 +1,4 @@
-package com.saman.tutorial.aws.contract;
+package com.saman.tutorial.aws.service;
 
 import software.amazon.awssdk.services.s3.model.DeleteObjectsResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;

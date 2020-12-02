@@ -1,6 +1,6 @@
 package com.saman.tutorial.aws;
 
-import com.saman.tutorial.aws.contract.S3Facade;
+import com.saman.tutorial.aws.service.S3Facade;
 import com.saman.tutorial.aws.impl.S3FacadeImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
