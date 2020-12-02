@@ -1,4 +1,4 @@
-package com.saman.tutorial.aws.impl;
+package com.saman.tutorial.aws.service;
 
 /**
  * @author Saman Alishiri, samanalishiri@gmail.com

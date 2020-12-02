@@ -2,6 +2,11 @@ package com.saman.tutorial.aws.utils;
 
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.sqs.SqsClient;
+import software.amazon.awssdk.services.sqs.model.SendMessageBatchRequestEntry;
+
+import java.util.UUID;
+
+import static java.util.Arrays.stream;
 
 /**
  * @author Saman Alishiri, samanalishiri@gmail.com
@@ -23,8 +28,18 @@ public final class SqsUtils {
         return DEFAULT_REGION;
     }
 
-    public static SqsClient getDefaultSqlclient() {
+    public static SqsClient getDefaultSqlClient() {
         return DEFAULT_SQS_CLIENT;
     }
 
+    public static SendMessageBatchRequestEntry createMessage(String it) {
+        return SendMessageBatchRequestEntry.builder()
+                .id(UUID.randomUUID().toString())
+                .messageBody(it)
+                .build();
+    }
+
+    public static SendMessageBatchRequestEntry[] createMessage(String[] strings) {
+        return stream(strings).map(SqsUtils::createMessage).toArray(SendMessageBatchRequestEntry[]::new);
+    }
 }

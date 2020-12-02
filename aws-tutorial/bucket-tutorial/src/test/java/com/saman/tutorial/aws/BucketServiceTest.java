@@ -46,7 +46,7 @@ class BucketServiceTest {
     @ValueSource(strings = {"pine-framework-test-bucket"})
     @DisplayName("bucket sync creation")
     @Order(1)
-    void createBucket_GivenBucketNameAsParam_WhenSendCreateRequest_ThenItShouldBeWaitUntilGetResponse(String name) {
+    void createBucket_GivenBucketNameAsParam_WhenSendCreateRequest_ThenItShouldBeWaitUntilGetOKStatus(String name) {
         Optional<HeadBucketResponse> response = s3Facade.createBucket(name);
         assertTrue(response.isPresent());
         response.ifPresent(it -> {
@@ -60,7 +60,7 @@ class BucketServiceTest {
     @Test
     @DisplayName("get all buckets")
     @Order(2)
-    void getAllBuckets_GivenNoParam_WhenSendGetRequestToAWS_ThenReturnAllBucketAsList() {
+    void getAllBuckets_GivenNoParam_WhenSendGetRequest_ThenReturnAllBucketAsList() {
         List<Bucket> buckets = s3Facade.getAllBuckets();
         assertNotNull(buckets);
     }
@@ -69,7 +69,7 @@ class BucketServiceTest {
     @ValueSource(strings = {"pine-framework-test-bucket"})
     @DisplayName("get one bucket")
     @Order(3)
-    void getOneBucket_GivenBucketNameAsParam_WhenSendGetRequestToAWS_ThenReturnTheBucket(String name) {
+    void getOneBucket_GivenBucketNameAsParam_WhenSendGetRequest_ThenReturnTheBucket(String name) {
         Optional<Bucket> bucket = s3Facade.getOneBucket(name);
         assertTrue(bucket.isPresent());
         bucket.ifPresent(it -> assertEquals(name, it.name()));
@@ -79,7 +79,7 @@ class BucketServiceTest {
     @CsvSource({"pine-framework-test-bucket, aws-object, put-to-aws.txt"})
     @DisplayName("put one object")
     @Order(4)
-    void putOneObject_GivenBucketNameAndObjectKeyAndFileAsParam_WhenSendPutObjectRequestToAWS_ThenReturnTheOKStatus(
+    void putOneObject_GivenBucketNameAndObjectKeyAndFileAsParam_WhenSendPutObjectRequest_ThenReturnTheOKStatus(
             String bucketName, String objectKey, String fileName) {
 
         Optional<PutObjectResponse> response = s3Facade.putOneObject(bucketName, objectKey, readFile(format("src/test/resources/%s", fileName)));
@@ -97,7 +97,7 @@ class BucketServiceTest {
     @CsvSource({"pine-framework-test-bucket, aws-object, get-from-aws"})
     @DisplayName("get one object")
     @Order(5)
-    void getOneObject_GivenBucketNameAndObjectKeyAndFilePathAsParam_WhenSendGetObjectRequestToAWS_ThenReturnTheByteArray(
+    void getOneObject_GivenBucketNameAndObjectKeyAndFilePathAsParam_WhenSendGetObjectRequest_ThenReturnTheByteArray(
             String bucketName, String objectKey, String filePath) {
 
         byte[] object = s3Facade.getOneObject(bucketName, objectKey);
@@ -110,7 +110,7 @@ class BucketServiceTest {
     @CsvSource({"pine-framework-test-bucket, aws-object"})
     @DisplayName("delete one object")
     @Order(6)
-    void deleteOneObject_GivenBucketNameAndObjectKeyAsParam_WhenSendDeleteObjectRequestToAWS_ThenReturnTheOKStatus(
+    void deleteOneObject_GivenBucketNameAs1stAndObjectKeyAs2ndParam_WhenSendDeleteObjectRequest_ThenReturnTheOKStatus(
             String bucketName, String objectKey) {
 
         Optional<DeleteObjectsResponse> response = s3Facade.deleteOneObject(bucketName, objectKey);
@@ -128,7 +128,7 @@ class BucketServiceTest {
     @CsvSource({"pine-framework-test-bucket, aws-object, put-to-aws.txt"})
     @DisplayName("put one object async")
     @Order(7)
-    void putOneObject_GivenBucketNameAndObjectKeyAndFileAsParam_WhenSendAsyncPutObjectRequestToAWS_ThenReturnTheOKStatus(
+    void putOneObject_GivenBucketNameAndObjectKeyAndFileAsParam_WhenSendAsyncPutObjectRequest_ThenReturnTheOKStatus(
             String bucketName, String objectKey, String fileName) {
 
         s3Facade.putOneObject(bucketName, objectKey, readFile(format("src/test/resources/%s", fileName)), (response, err) -> {
@@ -145,7 +145,7 @@ class BucketServiceTest {
     @CsvSource({"pine-framework-test-bucket, aws-object, get-from-aws"})
     @DisplayName("get one object async")
     @Order(8)
-    void getOneObject_GivenBucketNameAndObjectKeyAndFilePathAsParam_WhenSendAsyncGetObjectRequestToAWS_ThenReturnTheByteArray(
+    void getOneObject_GivenBucketNameAndObjectKeyAndFilePathAsParam_WhenSendAsyncGetObjectRequest_ThenReturnTheByteArray(
             String bucketName, String objectKey, String filePath) {
 
         s3Facade.getOneObject(bucketName, objectKey, (response, err) -> {
@@ -159,7 +159,7 @@ class BucketServiceTest {
     @ValueSource(strings = {"pine-framework-test-bucket"})
     @DisplayName("delete one bucket")
     @Order(9)
-    void deleteOneBucket_GivenBucketNameAsParam_WhenSendDeleteRequestToAWS_ThenItShouldBeRemove(String name) {
+    void deleteOneBucket_GivenBucketNameAsParam_WhenSendDeleteRequest_ThenReturnNoContentStatus(String name) {
         Optional<DeleteBucketResponse> response = s3Facade.deleteOneBucket(name);
         assertTrue(response.isPresent());
         response.ifPresent(it -> {

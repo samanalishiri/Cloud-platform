@@ -1,5 +1,5 @@
-import com.saman.tutorial.aws.impl.SqsService;
-import com.saman.tutorial.aws.service.SqsServiceImpl;
+import com.saman.tutorial.aws.service.SqsService;
+import com.saman.tutorial.aws.impl.SqsServiceImpl;
 
 module messaging.tutorial {
     exports com.saman.tutorial.aws.service;

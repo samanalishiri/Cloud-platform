@@ -5,39 +5,45 @@ import io.vavr.control.Try;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
 
+import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 
+/**
+ * @author Saman Alishiri, samanalishiri@gmail.com
+ */
 public final class IoUtils {
 
     private IoUtils() {
     }
 
     public static URI toUri(String path) {
-        ClassLoader classLoader = IoUtils.class.getClassLoader();
-        URL dir = classLoader.getResource(path);
-        requireNonNull(dir);
-        return Try.of(dir::toURI).get();
+        URL directory = IoUtils.class.getClassLoader().getResource(path);
+        requireNonNull(directory);
+        return Try.of(directory::toURI).get();
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static byte[] readFile(String path) {
-        File file = new File(path);
-
-        return Try.withResources(() -> new FileInputStream(file))
-                .of(inputStream -> {
-                    byte[] bytes = new byte[(int) file.length()];
-                    inputStream.read(bytes);
-                    return bytes;
-                }).get();
+        return Try.withResources(() -> new FileInputStream(new File(path)))
+                .of(InputStream::readAllBytes)
+                .get();
     }
 
     public static void createFile(String name, byte[] content) {
         Try.withResources(() -> new FileOutputStream(new File(name)))
                 .of(outputStream -> {
                     outputStream.write(content);
+                    return outputStream;
+                });
+    }
+
+    public static void createFile(String name, String[] content) {
+        Try.withResources(() -> new FileOutputStream(new File(name)))
+                .of(outputStream -> {
+                    stream(content).forEach(s -> Try.run(() -> outputStream.write(s.getBytes())));
                     return outputStream;
                 });
     }

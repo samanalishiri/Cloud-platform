@@ -1,9 +1,5 @@
 package com.saman.tutorial.aws.service;
 
-import com.saman.tutorial.aws.impl.Bean;
-import com.saman.tutorial.aws.service.Bean;
-import com.saman.tutorial.aws.service.Composite;
-
 import java.util.HashMap;
 import java.util.Map;
 
