@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.saman.tutorial.aws</groupId>
-    <artifactId>aws-tutorial</artifactId>
+    <groupId>com.saman.tutorial.com.saman.tutorial.aws</groupId>
+    <artifactId>com.saman.tutorial.aws-tutorial</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>AWS Tutorial</name>
@@ -17,6 +17,7 @@
     <modules>
         <module>hello-world</module>
         <module>bucket-tutorial</module>
+        <module>messaging-tutorial</module>
     </modules>
     <dependencyManagement>
         <dependencies>
@@ -30,7 +31,7 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
-        <!--aws-->
+        <!--com.saman.tutorial.aws-->
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>s3</artifactId>
@@ -38,6 +39,10 @@
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>kms</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>sqs</artifactId>
         </dependency>
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
