@@ -1,14 +1,13 @@
 echo off
-echo # Cloud Platform Tutorial >> README.md
+echo # Cloud Platform Tutorial >> HELP.md
 echo .idea >> .gitignore
 echo target >> .gitignore
 echo *.iml >> .gitignore
 echo .scannerwork >> .gitignore
 echo *.log >> .gitignore
-echo git-setup-spring-cloud-tutorial.bat >> .gitignore
 
 git init
-git add README.md
+git add HELP.md
 git add .gitignore
 git commit -m "init Cloud Platform Tutorial project"
 git remote add origin https://github.com/samanalishiri/cloud-platform-tutorial.git

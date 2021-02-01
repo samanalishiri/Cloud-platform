@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
 @DisplayName("Credentials Tests")
-class CredentialsUtilsTest {
+public class CredentialsUtilsTest {
 
     @Test
     @DisplayName("load default credentials")

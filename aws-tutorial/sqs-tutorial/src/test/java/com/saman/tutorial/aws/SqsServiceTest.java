@@ -18,6 +18,7 @@ import software.amazon.awssdk.services.sqs.model.SendMessageBatchResponse;
 
 import java.util.Optional;
 
+import static com.saman.tutorial.aws.service.BeanRepository.getBean;
 import static com.saman.tutorial.aws.utils.IoUtils.createFile;
 import static com.saman.tutorial.aws.utils.MessageConverter.convert;
 import static java.lang.String.format;
@@ -32,9 +33,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
 class SqsServiceTest {
 
-    public static final String QUEUE_NAME = "pine-framework-test-sqs";
+    public static final String QUEUE_NAME = "saman-aws-tutorial-sqs";
 
-    private final SqsService sqsService = BeanRepository.getBean(SqsServiceImpl.class.getSimpleName(), SqsService.class);
+    private final SqsService sqsService = getBean(SqsServiceImpl.class.getSimpleName(), SqsService.class);
 
     @BeforeEach
     void setUp() {

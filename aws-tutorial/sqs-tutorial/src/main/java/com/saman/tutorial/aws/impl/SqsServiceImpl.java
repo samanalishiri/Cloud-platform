@@ -30,17 +30,23 @@ public class SqsServiceImpl implements SqsService {
 
     @Override
     public Optional<CreateQueueResponse> createQueue(String queueName) {
-        return ofNullable(SQS_CLIENT.createQueue(CreateQueueRequest.builder().queueName(queueName).build()));
+        return ofNullable(SQS_CLIENT.createQueue(CreateQueueRequest.builder()
+                .queueName(queueName)
+                .build()));
     }
 
     @Override
     public Optional<GetQueueUrlResponse> getQueue(String queueName) {
-        return ofNullable(SQS_CLIENT.getQueueUrl(GetQueueUrlRequest.builder().queueName(queueName).build()));
+        return ofNullable(SQS_CLIENT.getQueueUrl(GetQueueUrlRequest.builder()
+                .queueName(queueName)
+                .build()));
     }
 
     @Override
     public <T> Optional<T> getQueue(String queueName, Function<GetQueueUrlResponse, T> then) {
-        GetQueueUrlResponse queue = SQS_CLIENT.getQueueUrl(GetQueueUrlRequest.builder().queueName(queueName).build());
+        GetQueueUrlResponse queue = SQS_CLIENT.getQueueUrl(GetQueueUrlRequest.builder()
+                .queueName(queueName)
+                .build());
 
         if (isNull(queue))
             return Optional.empty();
@@ -51,7 +57,9 @@ public class SqsServiceImpl implements SqsService {
     @Override
     public Optional<DeleteQueueResponse> deleteQueue(String queueName) {
         return getQueue(queueName,
-                (queue) -> SQS_CLIENT.deleteQueue(DeleteQueueRequest.builder().queueUrl(queue.queueUrl()).build()));
+                (queue) -> SQS_CLIENT.deleteQueue(DeleteQueueRequest.builder()
+                        .queueUrl(queue.queueUrl())
+                        .build()));
     }
 
     @Override

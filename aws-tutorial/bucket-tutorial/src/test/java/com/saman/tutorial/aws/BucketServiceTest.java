@@ -35,6 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
 class BucketServiceTest {
 
+    public static final String BUCKET_NAME = "saman-aws-tutorial-bucket";
     private final S3Facade s3Facade = getBean(S3FacadeImpl.class.getSimpleName(), S3Facade.class);
 
     @BeforeEach
@@ -43,7 +44,7 @@ class BucketServiceTest {
     }
 
     @ParameterizedTest(name = "{index} => name=''{0}''")
-    @ValueSource(strings = {"pine-framework-test-bucket"})
+    @ValueSource(strings = {BUCKET_NAME})
     @DisplayName("bucket sync creation")
     @Order(1)
     void createBucket_GivenBucketNameAsParam_WhenSendCreateRequest_ThenItShouldBeWaitUntilGetOKStatus(String name) {
@@ -66,7 +67,7 @@ class BucketServiceTest {
     }
 
     @ParameterizedTest(name = "{index} => name=''{0}''")
-    @ValueSource(strings = {"pine-framework-test-bucket"})
+    @ValueSource(strings = {"saman-aws-tutorial-bucket"})
     @DisplayName("get one bucket")
     @Order(3)
     void getOneBucket_GivenBucketNameAsParam_WhenSendGetRequest_ThenReturnTheBucket(String name) {
@@ -76,13 +77,14 @@ class BucketServiceTest {
     }
 
     @ParameterizedTest(name = "{index} => bucketName=''{0}'', objectKey=''{1}'', fileName=''{2}''")
-    @CsvSource({"pine-framework-test-bucket, aws-object, put-to-aws.txt"})
+    @CsvSource({"saman-aws-tutorial-bucket, aws-object, put-to-aws.txt"})
     @DisplayName("put one object")
     @Order(4)
     void putOneObject_GivenBucketNameAndObjectKeyAndFileAsParam_WhenSendPutObjectRequest_ThenReturnTheOKStatus(
             String bucketName, String objectKey, String fileName) {
 
-        Optional<PutObjectResponse> response = s3Facade.putOneObject(bucketName, objectKey, readFile(format("src/test/resources/%s", fileName)));
+        Optional<PutObjectResponse> response = s3Facade.putOneObject(bucketName, objectKey,
+                readFile(format("src/test/resources/%s", fileName)));
         assertTrue(response.isPresent());
         response.ifPresent(it -> {
             assertTrue(it.sdkHttpResponse().isSuccessful());
@@ -94,7 +96,7 @@ class BucketServiceTest {
     }
 
     @ParameterizedTest(name = "{index} => bucketName=''{0}'', objectKey=''{1}'', filePath=''{2}''")
-    @CsvSource({"pine-framework-test-bucket, aws-object, get-from-aws"})
+    @CsvSource({"saman-aws-tutorial-bucket, aws-object, get-from-aws"})
     @DisplayName("get one object")
     @Order(5)
     void getOneObject_GivenBucketNameAndObjectKeyAndFilePathAsParam_WhenSendGetObjectRequest_ThenReturnTheByteArray(
@@ -107,7 +109,7 @@ class BucketServiceTest {
 
 
     @ParameterizedTest(name = "{index} => bucketName=''{0}'', objectKey=''{1}''")
-    @CsvSource({"pine-framework-test-bucket, aws-object"})
+    @CsvSource({"saman-aws-tutorial-bucket, aws-object"})
     @DisplayName("delete one object")
     @Order(6)
     void deleteOneObject_GivenBucketNameAs1stAndObjectKeyAs2ndParam_WhenSendDeleteObjectRequest_ThenReturnTheOKStatus(
@@ -125,7 +127,7 @@ class BucketServiceTest {
     }
 
     @ParameterizedTest(name = "{index} => bucketName=''{0}'', objectKey=''{1}'', fileName=''{2}''")
-    @CsvSource({"pine-framework-test-bucket, aws-object, put-to-aws.txt"})
+    @CsvSource({"saman-aws-tutorial-bucket, aws-object, put-to-aws.txt"})
     @DisplayName("put one object async")
     @Order(7)
     void putOneObject_GivenBucketNameAndObjectKeyAndFileAsParam_WhenSendAsyncPutObjectRequest_ThenReturnTheOKStatus(
@@ -142,7 +144,7 @@ class BucketServiceTest {
     }
 
     @ParameterizedTest(name = "{index} => bucketName=''{0}'', objectKey=''{1}'', filePath=''{2}''")
-    @CsvSource({"pine-framework-test-bucket, aws-object, get-from-aws"})
+    @CsvSource({"saman-aws-tutorial-bucket, aws-object, get-from-aws"})
     @DisplayName("get one object async")
     @Order(8)
     void getOneObject_GivenBucketNameAndObjectKeyAndFilePathAsParam_WhenSendAsyncGetObjectRequest_ThenReturnTheByteArray(
@@ -156,7 +158,7 @@ class BucketServiceTest {
     }
 
     @ParameterizedTest(name = "{index} => name=''{0}''")
-    @ValueSource(strings = {"pine-framework-test-bucket"})
+    @ValueSource(strings = {"saman-aws-tutorial-bucket"})
     @DisplayName("delete one bucket")
     @Order(9)
     void deleteOneBucket_GivenBucketNameAsParam_WhenSendDeleteRequest_ThenReturnNoContentStatus(String name) {

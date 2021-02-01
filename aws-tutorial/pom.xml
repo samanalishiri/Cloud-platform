@@ -4,11 +4,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.saman.tutorial.com.saman.tutorial.aws</groupId>
-    <artifactId>com.saman.tutorial.aws-tutorial</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>com.saman.tutorial.aws</groupId>
+    <artifactId>aws-tutorial</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>AWS Tutorial</name>
+    <developers>
+        <developer>
+            <name>Saman Alishirishahrbabak</name>
+            <email>samanalishiri@gmail.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
@@ -17,7 +26,7 @@
     <modules>
         <module>hello-world</module>
         <module>bucket-tutorial</module>
-        <module>messaging-tutorial</module>
+        <module>sqs-tutorial</module>
     </modules>
     <dependencyManagement>
         <dependencies>
@@ -31,7 +40,7 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
-        <!--com.saman.tutorial.aws-->
+        <!--aws-->
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>s3</artifactId>
@@ -49,12 +58,15 @@
             <artifactId>s3control</artifactId>
             <version>2.15.14</version>
         </dependency>
+        <!--/aws-->
 
+        <!--utils-->
         <dependency>
             <groupId>io.vavr</groupId>
             <artifactId>vavr</artifactId>
             <version>0.10.2</version>
         </dependency>
+        <!--/utils-->
 
         <!--logger-->
         <dependency>
@@ -67,7 +79,9 @@
             <artifactId>log4j-slf4j-impl</artifactId>
             <version>2.9.0</version>
         </dependency>
-        <!--hello.world.test-->
+        <!--/logger-->
+
+        <!--test-->
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-engine</artifactId>
@@ -110,6 +124,7 @@
             <version>5.5.2</version>
             <scope>test</scope>
         </dependency>
+        <!--/test-->
     </dependencies>
     <build>
         <plugins>
@@ -121,6 +136,22 @@
                     <source>11</source>
                     <target>11</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19.1</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.platform</groupId>
+                        <artifactId>junit-platform-surefire-provider</artifactId>
+                        <version>1.0.3</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>5.0.3</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
