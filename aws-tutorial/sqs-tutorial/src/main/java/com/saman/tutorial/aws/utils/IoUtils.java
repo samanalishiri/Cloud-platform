@@ -2,7 +2,6 @@ package com.saman.tutorial.aws.utils;
 
 import io.vavr.control.Try;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -27,13 +26,13 @@ public final class IoUtils {
     }
 
     public static byte[] readFile(String path) {
-        return Try.withResources(() -> new FileInputStream(new File(path)))
+        return Try.withResources(() -> new FileInputStream(path))
                 .of(InputStream::readAllBytes)
                 .get();
     }
 
     public static void createFile(String name, byte[] content) {
-        Try.withResources(() -> new FileOutputStream(new File(name)))
+        Try.withResources(() -> new FileOutputStream(name))
                 .of(outputStream -> {
                     outputStream.write(content);
                     return outputStream;
@@ -41,7 +40,7 @@ public final class IoUtils {
     }
 
     public static void createFile(String name, String[] content) {
-        Try.withResources(() -> new FileOutputStream(new File(name)))
+        Try.withResources(() -> new FileOutputStream(name))
                 .of(outputStream -> {
                     stream(content).forEach(s -> Try.run(() -> outputStream.write(s.getBytes())));
                     return outputStream;

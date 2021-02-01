@@ -1,7 +1,6 @@
 package com.saman.tutorial.aws;
 
 import com.saman.tutorial.aws.impl.SqsServiceImpl;
-import com.saman.tutorial.aws.service.BeanRepository;
 import com.saman.tutorial.aws.service.SqsService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

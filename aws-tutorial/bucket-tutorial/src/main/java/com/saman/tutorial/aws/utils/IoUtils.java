@@ -2,7 +2,6 @@ package com.saman.tutorial.aws.utils;
 
 import io.vavr.control.Try;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -10,6 +9,7 @@ import java.net.URI;
 import java.net.URL;
 
 import static java.util.Objects.requireNonNull;
+
 /**
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
@@ -25,13 +25,13 @@ public final class IoUtils {
     }
 
     public static byte[] readFile(String path) {
-        return Try.withResources(() -> new FileInputStream(new File(path)))
+        return Try.withResources(() -> new FileInputStream(path))
                 .of(InputStream::readAllBytes)
                 .get();
     }
 
     public static void createFile(String name, byte[] content) {
-        Try.withResources(() -> new FileOutputStream(new File(name)))
+        Try.withResources(() -> new FileOutputStream(name))
                 .of(outputStream -> {
                     outputStream.write(content);
                     return outputStream;
